@@ -1,8 +1,17 @@
-import { Button, ButtonGroup, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
-import { Link as BotaoLink } from "react-router-dom";
 import * as Yup from "yup";
+import { BotoesFormulario } from "../../../components/BotoesFormulario";
 import { CampoFormulario } from "../../../components/Campos";
+import { api } from "../../../utils/api";
+import { v4 } from "uuid";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { useEffect, useState } from "react";
+import { MarcaDataTypes } from "../../Marca/Lista";
+import { CategoriaDataTypes } from "../../Categoria/Lista";
+
+const SwalModal = withReactContent(Swal);
 
 export const initialValues: ProdutoTypes = {
   nome: "",
@@ -23,7 +32,47 @@ export const validationSchema = Yup.object().shape({
 });
 
 export function CadastroProduto() {
+  const [dataMarca, setDataMarca] = useState<MarcaDataTypes[]>([]);
+  const [dataCategoria, setDataCategoria] = useState<CategoriaDataTypes[]>([]);
+
+  useEffect(() => {
+    api.get('/marcas')
+      .then((result) => {
+        setDataMarca(result.data)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    api.get('/categoria')
+      .then((result) => {
+        setDataCategoria(result.data)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   async function onSubmit(values: ProdutoTypes, helpers: FormikHelpers<ProdutoTypes>) {
+    await api.post('/categorias', {
+      uuid: v4().toString(),
+      nome: values.nome,
+      descricao: values.descricao,
+      preco: values.preco,
+      estoque: values.estoque,
+      categoria: values.categoria,
+      marca: values.marca,
+    })
+      .then(() => {
+        SwalModal.fire({
+          icon: 'success',
+          title: "Cadastro realizado com sucesso!",
+          confirmButtonText: 'Fechar',
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     helpers.resetForm();
   }
 
@@ -91,21 +140,12 @@ export function CadastroProduto() {
                     placeholder="Digite a marca"
                     values={values.marca}
                   />
-                  <Grid md={12} xs={12} item display="flex" justifyContent="end">
-                    <ButtonGroup
-                      variant="contained"
-                      aria-label="outlined primary button group"
-                    >
-                      <Button type="submit">Salvar</Button>
-                      <Button type="reset">Limpar</Button>
-                      <Button type="button">
-                        <BotaoLink
-                          to="/home-page"
-                          style={{ textDecoration: 'none', color: 'white' }}
-                        >Voltar</BotaoLink>
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
+                  <BotoesFormulario
+                    botao_cadastrar_label="Salvar"
+                    botao_limpar_label="Limpar"
+                    botao_link_label="Voltar"
+                    to="/home-page"
+                  />
                 </Grid>
               </Form>
             )}

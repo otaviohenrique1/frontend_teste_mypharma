@@ -1,8 +1,8 @@
-import { Button, ButtonGroup, Container, Grid } from "@mui/material";
-import { Formik, Form, Field, FormikHelpers } from "formik";
-import { Link as BotaoLink } from "react-router-dom";
+import { Container, Grid } from "@mui/material";
+import { Formik, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { TextField } from "formik-mui";
+import { BotoesFormulario } from "../../../components/BotoesFormulario";
+import { CampoFormulario } from "../../../components/Campos";
 
 export const initialValues: UsuarioTypes = {
   nome: "",
@@ -37,57 +37,36 @@ export function CadastroUsuario() {
             {({ errors, touched, values }) => (
               <Form>
                 <Grid md={12} xs={12} container rowSpacing={2}>
-                  <Grid md={12} xs={12} item>
-                    <Field
-                      style={{ width: '100%' }}
-                      id="nome"
-                      label="Nome"
-                      name="nome"
-                      type="text"
-                      placeholder="Digite o seu nome"
-                      value={values.nome}
-                      component={TextField}
-                    />
-                  </Grid>
-                  <Grid md={12} xs={12} item>
-                    <Field
-                      style={{ width: '100%' }}
-                      id="email"
-                      label="E-mail"
-                      name="email"
-                      type="email"
-                      placeholder="Digite o seu e-mail"
-                      value={`${values.email}`}
-                      component={TextField}
-                    />
-                  </Grid>
-                  <Grid md={12} xs={12} item>
-                    <Field
-                      style={{ width: '100%' }}
-                      id="senha"
-                      label="Senha"
-                      name="senha"
-                      type="password"
-                      placeholder="Digite a sua senha"
-                      value={values.senha}
-                      component={TextField}
-                    />
-                  </Grid>
-                  <Grid md={12} xs={12} item display="flex" justifyContent="end">
-                    <ButtonGroup
-                      variant="contained"
-                      aria-label="outlined primary button group"
-                    >
-                      <Button type="submit">Salvar</Button>
-                      <Button type="reset">Limpar</Button>
-                      <Button type="button">
-                        <BotaoLink
-                          to="/"
-                          style={{ textDecoration: 'none', color: 'white' }}
-                        >Voltar</BotaoLink>
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
+                  <CampoFormulario
+                    id="nome"
+                    label="Nome"
+                    name="nome"
+                    type="text"
+                    placeholder="Digite o seu nome"
+                    values={values.nome}
+                  />
+                  <CampoFormulario
+                    id="email"
+                    label="E-mail"
+                    name="email"
+                    type="email"
+                    placeholder="Digite o seu e-mail"
+                    values={`${values.email}`}
+                  />
+                  <CampoFormulario
+                    id="senha"
+                    label="Senha"
+                    name="senha"
+                    type="password"
+                    placeholder="Digite a sua senha"
+                    values={values.senha}
+                  />
+                  <BotoesFormulario
+                    botao_cadastrar_label="Salvar"
+                    botao_limpar_label="Limpar"
+                    botao_link_label="Voltar"
+                    to="/"
+                  />
                 </Grid>
               </Form>
             )}
