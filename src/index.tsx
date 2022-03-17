@@ -9,7 +9,8 @@ ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
