@@ -1,7 +1,8 @@
-import { Button, ButtonGroup, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Formik, Form, FormikHelpers } from "formik";
-import { Link as BotaoLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { BotoesFormulario } from "../../components/BotoesFormulario";
 import { CampoFormulario } from "../../components/Campos";
 
 export const initialValues: LoginTypes = {
@@ -53,21 +54,12 @@ export function Login() {
                     placeholder="Digite a sua senha"
                     values={values.senha}
                   />
-                  <Grid md={12} xs={12} item display="flex" justifyContent="end">
-                    <ButtonGroup
-                      variant="contained"
-                      aria-label="outlined primary button group"
-                    >
-                      <Button type="submit">Entrar</Button>
-                      <Button type="reset">Limpar</Button>
-                      <Button type="button">
-                        <BotaoLink
-                          to="/usuario/cadastro"
-                          style={{ textDecoration: 'none', color: 'white' }}
-                        >Voltar</BotaoLink>
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
+                  <BotoesFormulario
+                    botao_cadastrar_label="Entrar"
+                    botao_limpar_label="Limpar"
+                    botao_link_label="Novo usuario"
+                    to="/usuarios/cadastro"
+                  />
                 </Grid>
               </Form>
             )}
