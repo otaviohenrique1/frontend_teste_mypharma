@@ -11,7 +11,7 @@ interface CampoFormularioProps {
   label: string;
   name: string;
   placeholder: string;
-  type: "text" | "number" | "password";
+  type: "text" | "number" | "password" | "email";
 }
 
 export function CampoFormulario(props: CampoFormularioProps) {
